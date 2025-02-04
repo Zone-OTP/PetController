@@ -50,15 +50,22 @@ namespace PetController
         public override void PetMove() => Console.WriteLine("Fly");
     }
 
+    public interface IPetDataHandler
+    {
+        void SavePets(List<Pet> pets);
+        List<Pet> LoadPets();
+    }
+
+
     public class PetManager
     {
 
-        public List<Pet> PetList { get; set; } = new List<Pet>();
+        private List<Pet> PetList { get; set; } = new List<Pet>();
+        
         public void AddPet(Pet pet)
         {
             PetList.Add(pet);
         }
-
         public void ShowPets()
         {
             foreach (var pet in PetList)
@@ -68,7 +75,6 @@ namespace PetController
                 pet.PetMove();
             }
         }
-
 
 
     }
