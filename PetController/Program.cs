@@ -13,7 +13,7 @@ namespace PetController
             petManager.AddPet(new Dog("Lord Farkwad", 28));
             petManager.AddPet(new Dog("Lord ", 18));
             petManager.AddPet(new Dog("Farkwad", 14));
-            //push
+            //commit
             petManager.ShowPets();
 
         }
