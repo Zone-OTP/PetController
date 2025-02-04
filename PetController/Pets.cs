@@ -9,7 +9,9 @@ namespace PetController
 {
     public abstract class Pet
     {
-        public Guid PetId { get; } = Guid.NewGuid();
+        private static int _nextId = 1;
+
+        public int PetId { get; }
         public string Name { get; set; }
         public uint Age { get; set; } 
 
@@ -18,6 +20,7 @@ namespace PetController
 
         protected Pet(string name, uint age)
         {
+            PetId = _nextId++;
             Name = name;
             Age = age;
         }
