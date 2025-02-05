@@ -20,7 +20,6 @@ namespace PetController
     public abstract class Pet
     {
         internal static int _nextId = 1;
-
         public int PetId { get; }
         public string Name { get; set; }
         public uint Age { get; set; }
@@ -34,8 +33,6 @@ namespace PetController
             Name = name;
             Age = age;
         }
-
-
     }
 
     public class Dog : Pet
@@ -140,13 +137,11 @@ namespace PetController
          void SavePetsJson(List<Pet> pets);
          List<Pet> LoadPetsJson();
     }
-
     public interface IPetDataHandlerMemory
     {
         void SavePetsInMemory(List<Pet> pets);
         List<Pet> LoadPetsInMemory();
     }
-
     public class FilePetDataHandler : IPetDataHandlerJson
     {
         private readonly static string filePath = "pets.json";
@@ -179,7 +174,6 @@ namespace PetController
                     }
                 }
             };
-
             string json = JsonSerializer.Serialize(pets, options);
             File.WriteAllText(filePath, json);
             Console.WriteLine("Pets Have been saved");
@@ -222,7 +216,6 @@ namespace PetController
 
                     }
                 }
-
             };
             try
             {
@@ -241,7 +234,6 @@ namespace PetController
             _inMemoryPets = new List<Pet>(pets);
             Console.WriteLine("Pets Have been saved in memory");
         }
-
         public List<Pet> LoadPetsInMemory()
         {
                 Pet._nextId = 1;
@@ -251,9 +243,7 @@ namespace PetController
                 }
                 Console.WriteLine("Pets loaded from memory");
                 return new List<Pet>(_inMemoryPets);
-           
         }
-        
     }
 }
 
