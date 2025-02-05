@@ -1,4 +1,5 @@
 ﻿using System;
+using static PetController.FilePetDataHandler;
 
 
 namespace PetController
@@ -7,18 +8,21 @@ namespace PetController
     {
         static void Main(string[] args)
         {
-            IPetDataHandler fileHandler = new FilePetDataHandler();
-            PetManager petManager = new PetManager(fileHandler);
+            IPetDataHandlerJson jsonFileHandler = new FilePetDataHandler();
+            IPetDataHandlerMemory memoryFileHandler = new InMemoryPetDataHandler();
+
+            PetManager petManager = new PetManager(jsonFileHandler, memoryFileHandler);
             //we never neaded keyword required
             petManager.AddPet(new Dog("Lord Farkwad", 28));
             petManager.AddPet(new Dog("Lord ", 18));
             petManager.AddPet(new Dog("Farkwad", 14));
             //push
-            petManager.SavePets();
-            petManager.LoadPets();
+            petManager.MemoryOrFile();
             petManager.ShowPets();
+            petManager.SpesificPet(1);
 
 
         }
+
     }
 }
