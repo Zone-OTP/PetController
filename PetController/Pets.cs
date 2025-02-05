@@ -113,6 +113,7 @@ namespace PetController
                     int choice = Convert.ToInt32(Console.ReadLine());
                     if (choice == 2)
                     {
+                        Console.Clear();
                         Console.WriteLine("your choice is to work in file");
                         SavePetsJson();
                         LoadPetsJson();
@@ -121,6 +122,7 @@ namespace PetController
                     }
                     else if (choice == 1)
                     {
+                        Console.Clear();
                         Console.WriteLine("your choice is to work in Memory");
                         SavePetsInMemory();
                         LoadPetsInMemory();
