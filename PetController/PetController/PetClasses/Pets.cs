@@ -35,20 +35,20 @@ namespace PetController
         public Dog(string name, uint age) : base(name, age) { }
 
         public override void MakeNoise() => Console.WriteLine($"{Name} Says woof Woof WOOOF!");
-        public override void PetMove() => Console.WriteLine("RUN");
+        public override void PetMove() => Console.WriteLine("RUNS");
     }
 
     public class Cat : Pets
     {
         public Cat(string Name, uint Age) : base(Name, Age) { }
         public override void MakeNoise() => Console.WriteLine($"{Name}Says Meow meow...");
-        public override void PetMove() => Console.WriteLine("Hardcore Parkour");
+        public override void PetMove() => Console.WriteLine("Hardcore Parkours");
     }
 
     public class Bird : Pets
     {
         public Bird(string name, uint age) : base(name, age) { }
         public override void MakeNoise() => Console.WriteLine($"{Name} says Tweet TWEET!");
-        public override void PetMove() => Console.WriteLine("Fly");
+        public override void PetMove() => Console.WriteLine("Flys");
     }
 }
