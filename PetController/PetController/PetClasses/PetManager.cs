@@ -11,6 +11,7 @@ namespace PetController
     {
         private readonly IPetDataHandlerJson dataHandlerJson;
         private readonly IPetDataHandlerMemory dataHandlermemory;
+        public event EventHandler<PetEventArgs> PetEvent;
         public PetManager(IPetDataHandlerJson HandlerJson, IPetDataHandlerMemory HandlerMemory)
         {
             dataHandlerJson = HandlerJson;
@@ -26,6 +27,7 @@ namespace PetController
                     if (!string.IsNullOrWhiteSpace(pet.Name) && !pet.Name.Contains('"') && !pet.Name.Contains("'"))
                     {
                         PetList.Add(pet);
+                        OnPetEvent(new PetEventArgs(pet, $"Added pet: {pet.Name} with ID: {pet.PetId}"));
                         break;
                     }
                     else
@@ -45,6 +47,7 @@ namespace PetController
         }
         public void ShowPets()
         {
+            OnPetEvent(new PetEventArgs(null, "Displaying all pets"));
             foreach (var pet in PetList)
             {
                 Console.WriteLine($"Pet ID: {pet.PetId}, Name: {pet.Name}, Age: {pet.Age}");
@@ -54,9 +57,17 @@ namespace PetController
         }
         public void SpesificPet(int targetPetId)
         {
+            OnPetEvent(new PetEventArgs(null, $"Looking for pet with ID: {targetPetId}"));
             var SpesificPet = PetList.Where(pet => pet.PetId == targetPetId).FirstOrDefault();
-            if (SpesificPet == null) { Console.WriteLine("That pet ID doesn not happen to exist"); }
-            else { Console.WriteLine($"Pet ID: {SpesificPet.PetId}, Name: {SpesificPet.Name}, Age: {SpesificPet.Age}"); }
+            if (SpesificPet == null) 
+            {
+                OnPetEvent(new PetEventArgs(null, $"Pet with ID: {targetPetId} not found", LogLevel.Warning));
+                Console.WriteLine("That pet ID doesn not happen to exist"); 
+            }
+            else {
+                OnPetEvent(new PetEventArgs(SpesificPet, $"Found pet: {SpesificPet.Name} with ID: {SpesificPet.PetId}"));
+                Console.WriteLine($"Pet ID: {SpesificPet.PetId}, Name: {SpesificPet.Name}, Age: {SpesificPet.Age}"); 
+            }
         }
         public void SavePetsJson() => dataHandlerJson.SavePetsJson(PetList);
         public void SavePetsInMemory() => dataHandlermemory.SavePetsInMemory(PetList);
@@ -78,15 +89,16 @@ namespace PetController
                     if (choice == 2)
                     {
                         Console.Clear();
+                        OnPetEvent(new PetEventArgs(null, "Saved pets to file"));
                         Console.WriteLine("your choice is to work in file");
                         SavePetsJson();
                         LoadPetsJson();
                         break;
-
                     }
                     else if (choice == 1)
                     {
                         Console.Clear();
+                        OnPetEvent(new PetEventArgs(null, "Saved pets to Memory"));
                         Console.WriteLine("your choice is to work in Memory");
                         SavePetsInMemory();
                         LoadPetsInMemory();
@@ -96,6 +108,10 @@ namespace PetController
                 }
                 catch (Exception ex) { Console.WriteLine($"{ex.Message}, input 1 or 2"); }
             }
+        }
+        protected virtual void OnPetEvent(PetEventArgs e)
+        {
+            PetEvent?.Invoke(this, e);
         }
     }
 }
